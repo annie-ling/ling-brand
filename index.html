@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#F4E9E3" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="LING 品牌" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="application-name" content="LING 品牌" />
+  <meta name="description" content="把你的故事、個性與經歷，整理成一個讓人記得住的個人品牌。" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="icon-180.png" />
+
+  <title>LING｜找到你的品牌｜個人品牌定位工具</title>
+  <style>
+    :root{
+      --bg:#f7f2ee;
+      --card:#fffdfb;
+      --text:#2d2926;
+      --muted:#786e68;
+      --line:#eadfd8;
+      --accent:#8c7062;
+      --accent2:#b49786;
+      --soft:#efe4dd;
+      --soft2:#f9f4f1;
+      --good:#738a79;
+      --shadow:0 18px 48px rgba(68,48,39,.10);
+      --radius:24px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;
+      background:linear-gradient(180deg,#fcf9f7 0%,var(--bg) 100%);
+      color:var(--text);
+      min-height:100vh;
+    }
+    button,input,textarea,select{font:inherit}
+    button{cursor:pointer}
+    .app{max-width:760px;margin:auto;min-height:100vh;padding-bottom:90px}
+    .topbar{
+      position:sticky;top:0;z-index:30;
+      display:flex;align-items:center;justify-content:space-between;
+      padding:14px 18px;
+      background:rgba(247,242,238,.92);
+      backdrop-filter:blur(18px);
+      border-bottom:1px solid rgba(234,223,216,.8)
+    }
+    .brand{font-weight:900;letter-spacing:.08em;font-size:13px}
+    .tiny{font-size:12px;color:var(--muted)}
+    .page{display:none;padding:22px 16px 34px}
+    .page.active{display:block}
+    .hero{padding:34px 4px 16px}
+    .badge{
+      display:inline-block;background:var(--soft);color:var(--accent);
+      border-radius:999px;padding:7px 12px;font-size:12px;font-weight:900;letter-spacing:.05em
+    }
+    h1{font-size:clamp(34px,8vw,56px);line-height:1.08;margin:17px 0 13px;letter-spacing:-.04em}
+    .lead{font-size:17px;color:var(--muted);line-height:1.8;margin:0}
+    .hero-note{margin-top:16px;font-size:13px;color:var(--muted)}
+    .card{
+      background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+      padding:20px;box-shadow:var(--shadow);margin-top:16px
+    }
+    .feature-grid,.tool-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .feature,.tool{
+      background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px
+    }
+    .feature b,.tool b{display:block;margin-bottom:6px}
+    .feature span,.tool span{font-size:13px;color:var(--muted);line-height:1.55}
+    .tool{text-align:left;min-height:132px}
+    .tool .emoji{font-size:25px;display:block;margin-bottom:7px}
+    .cta{
+      width:100%;border:0;border-radius:16px;padding:15px 18px;font-weight:900;
+      background:var(--accent);color:#fff;margin-top:14px
+    }
+    .cta.secondary{background:var(--soft);color:var(--accent)}
+    .cta.ghost{background:#fff;color:var(--text);border:1px solid var(--line)}
+    .section-head{margin-bottom:18px}
+    .section-head h2{margin:0 0 7px;font-size:28px}
+    .section-head p{margin:0;color:var(--muted);line-height:1.7}
+    label{display:block;font-weight:800;margin:18px 0 8px}
+    input,textarea,select{
+      width:100%;border:1px solid var(--line);background:#fff;border-radius:15px;
+      padding:14px;color:var(--text);outline:none
+    }
+    textarea{min-height:100px;resize:vertical}
+    input:focus,textarea:focus,select:focus{
+      border-color:var(--accent2);box-shadow:0 0 0 4px rgba(180,151,134,.12)
+    }
+    .progress{height:8px;background:#ece3de;border-radius:999px;overflow:hidden;margin:10px 0 4px}
+    .progress>div{height:100%;background:var(--accent);transition:.3s}
+    .step-count{text-align:right;font-size:12px;color:var(--muted)}
+    .nav-actions{display:flex;gap:10px;margin-top:20px}
+    .nav-actions button{flex:1}
+    .choice-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .choice{
+      padding:13px;border:1px solid var(--line);border-radius:14px;background:#fff;
+      text-align:center;font-weight:700
+    }
+    .choice.active{background:var(--soft);border-color:var(--accent2);color:var(--accent)}
+    .hidden{display:none!important}
+    .result-hero{
+      background:linear-gradient(145deg,#876c5f,#b29483);
+      color:#fff;border-radius:28px;padding:24px;box-shadow:var(--shadow);margin-top:12px
+    }
+    .result-hero .kicker{font-size:12px;opacity:.85;font-weight:900;letter-spacing:.10em}
+    .result-hero h2{font-size:29px;line-height:1.35;margin:10px 0 0}
+    .result-card{
+      background:#fff;border:1px solid var(--line);border-radius:20px;padding:18px;margin-top:14px
+    }
+    .result-card h3{margin:0 0 9px;font-size:16px;color:var(--accent)}
+    .result-card p{margin:0;white-space:pre-line;line-height:1.8}
+    .pill-wrap{display:flex;gap:8px;flex-wrap:wrap}
+    .pill{background:var(--soft);border-radius:999px;padding:8px 11px;font-size:13px;font-weight:700}
+    .score-big{font-size:38px;font-weight:900;letter-spacing:-.04em}
+    .radar{
+      display:grid;gap:12px;margin-top:12px
+    }
+    .radar-row{display:grid;grid-template-columns:88px 1fr 44px;align-items:center;gap:10px;font-size:13px}
+    .bar{height:10px;background:#eee6e1;border-radius:999px;overflow:hidden}
+    .bar>div{height:100%;background:var(--accent2);border-radius:999px}
+    .locked{
+      position:relative;overflow:hidden;
+      background:linear-gradient(160deg,#fff,#faf5f2);
+    }
+    .locked::after{
+      content:"進階功能";
+      position:absolute;right:12px;top:12px;
+      font-size:11px;font-weight:900;color:var(--accent);
+      background:var(--soft);padding:5px 8px;border-radius:999px
+    }
+    .bottom-nav{
+      position:fixed;bottom:0;left:0;right:0;z-index:40;
+      max-width:760px;margin:auto;
+      display:grid;grid-template-columns:repeat(8,1fr);
+      background:rgba(255,253,251,.97);backdrop-filter:blur(16px);
+      border-top:1px solid var(--line);padding:8px 6px calc(8px + env(safe-area-inset-bottom))
+    }
+    .bottom-nav button{
+      border:0;background:transparent;padding:8px 2px;border-radius:12px;
+      color:var(--muted);font-size:10px;font-weight:800
+    }
+    .bottom-nav button.active{background:var(--soft);color:var(--accent)}
+    .icon{display:block;font-size:18px;margin-bottom:2px}
+    .welcome{
+      position:fixed;inset:0;z-index:100;background:linear-gradient(160deg,#f8f1ec,#fffdfb);
+      display:flex;align-items:center;justify-content:center;padding:22px;
+      transition:.35s
+    }
+    .welcome.hide{opacity:0;pointer-events:none}
+    .welcome-inner{max-width:520px;text-align:center}
+    .welcome-mark{font-size:13px;font-weight:900;letter-spacing:.16em;color:var(--accent)}
+    .welcome h2{font-size:38px;line-height:1.2;margin:18px 0 10px}
+    .welcome p{color:var(--muted);line-height:1.8}
+    .notice{padding:12px 14px;background:var(--soft2);border-radius:14px;color:var(--muted);font-size:13px;margin-top:14px}
+    .calendar-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px}
+    .day-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:13px}
+    .day-card b{display:block;color:var(--accent);font-size:12px;margin-bottom:5px}
+    .day-card span{font-size:13px;line-height:1.5}
+    .share-card{
+      text-align:center;padding:30px 20px;
+      background:linear-gradient(160deg,#f5ebe5,#fffdfb);
+      border:1px solid var(--line);border-radius:24px;margin-top:14px
+    }
+    canvas{max-width:100%;border-radius:20px;margin-top:12px;display:none}
+    @media(max-width:560px){
+      .feature-grid,.tool-grid,.choice-grid,.calendar-grid{grid-template-columns:1fr}
+      .radar-row{grid-template-columns:78px 1fr 40px}
+    }
+  
+    /* V8 — LING signature visual system */
+    :root{
+      --bg:#f7f0ec;
+      --card:#fffaf7;
+      --text:#332b28;
+      --muted:#806f68;
+      --line:#eadbd4;
+      --accent:#9b766b;
+      --accent2:#c29c91;
+      --soft:#f0dfda;
+      --soft2:#fbf4f1;
+      --shadow:0 18px 48px rgba(93,65,56,.09);
+    }
+    body{
+      background:
+        radial-gradient(circle at 88% 3%,rgba(218,181,171,.23),transparent 25%),
+        radial-gradient(circle at 7% 18%,rgba(239,214,204,.28),transparent 28%),
+        linear-gradient(180deg,#fcf8f5 0%,#f7f0ec 100%);
+    }
+    .topbar{background:rgba(250,245,242,.92)}
+    .brand{letter-spacing:.03em;font-size:14px}
+    .hero{padding-top:38px}
+    .hero h1{
+      font-family:"Times New Roman","Noto Serif TC","Songti TC",serif;
+      font-weight:700;
+      letter-spacing:-.035em;
+    }
+    .hero::before{
+      content:"✦";
+      display:block;
+      color:#b98e82;
+      font-size:24px;
+      margin:3px 0 14px;
+    }
+    .badge{
+      background:#f2e1dc;
+      color:#8f695f;
+    }
+    .feature{
+      box-shadow:0 8px 24px rgba(90,65,55,.04);
+    }
+    .feature b::before{
+      content:"✦ ";
+      color:#c29c91;
+      font-size:11px;
+    }
+    .cta{
+      box-shadow:0 10px 24px rgba(130,92,80,.14);
+    }
+    .welcome{
+      background:
+        radial-gradient(circle at 75% 18%,rgba(222,187,177,.35),transparent 28%),
+        radial-gradient(circle at 18% 75%,rgba(240,216,207,.35),transparent 30%),
+        linear-gradient(160deg,#f7efeb,#fffaf7);
+    }
+    .welcome-inner::before{
+      content:"✦";
+      display:block;
+      font-size:36px;
+      color:#b88d81;
+      margin-bottom:18px;
+    }
+    .welcome h2{
+      font-family:"Times New Roman","Noto Serif TC","Songti TC",serif;
+      color:#3b302d;
+    }
+    .welcome-mark{color:#a37b70}
+    .result-hero{
+      background:linear-gradient(145deg,#9a756a,#c09a8e);
+    }
+    .bottom-nav{
+      background:rgba(255,250,247,.97);
+    }
+    .bottom-nav button.active{
+      background:#f0dfda;color:#8f695f;
+    }
+
+  
+    /* V8 — long-form brand introduction */
+    .landing-wrap{max-width:760px;margin:0 auto}
+    .landing-section{padding:58px 4px 64px;border-bottom:1px solid var(--line)}
+    .landing-section:first-child{padding-top:30px}
+    .landing-section:last-child{border-bottom:0}
+    .eyebrow{font-size:13px;font-weight:900;letter-spacing:.14em;color:#a86f50;margin-bottom:20px}
+    .ling-avatar{width:82px;height:82px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#d9a07e;color:#fff;font-family:Georgia,serif;font-size:25px;margin:10px 0 26px;box-shadow:0 12px 30px rgba(123,82,64,.12)}
+    .editorial-title{font-family:"Times New Roman","Noto Serif TC","Songti TC",serif;font-size:39px;line-height:1.25;letter-spacing:-.04em;margin:0 0 24px;color:#3c2e2b}
+    .editorial-title.small{font-size:34px}
+    .landing-copy{font-size:17px;line-height:1.95;color:#75645e;margin:0 0 20px}
+    .landing-copy b{color:#443532}
+    .quote-card{background:#fff;border-left:4px solid #d69a70;border-radius:0 20px 20px 0;padding:24px 22px;font-family:"Noto Serif TC","Songti TC",serif;font-weight:800;font-size:18px;line-height:1.8;box-shadow:var(--shadow);margin-top:28px}
+    .pain-grid{display:grid;gap:14px;margin-top:28px}
+    .pain-card{background:#fff;border-radius:22px;padding:21px;display:flex;gap:16px;align-items:flex-start;box-shadow:0 12px 28px rgba(93,65,56,.06)}
+    .pain-card span{font-family:Georgia,serif;font-size:20px;color:#d69267;font-weight:700}
+    .pain-card p{margin:0;font-size:16px;line-height:1.75}
+    .warm-section{background:linear-gradient(180deg,rgba(248,237,226,.55),rgba(255,250,247,.1));margin-left:-18px;margin-right:-18px;padding-left:22px;padding-right:22px}
+    .benefit-card{border-radius:20px;padding:20px 21px;margin:13px 0;display:flex;flex-direction:column;gap:8px}
+    .benefit-card b{font-size:17px}.benefit-card span{font-size:15px;line-height:1.65}
+    .benefit-card.green{background:#e6eee5;color:#486551}.benefit-card.blue{background:#e4edf3;color:#49687c}
+    .benefit-card.peach{background:#f8eddf;color:#795e48}.benefit-card.rose{background:#f3e4e2;color:#805d59}
+    .steps{margin-top:26px}
+    .step{display:grid;grid-template-columns:58px 1fr;gap:18px;margin:0 0 32px;align-items:flex-start}
+    .step i{width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#c9865c;color:#fff;font-family:Georgia,serif;font-size:22px;font-style:normal}
+    .step b{font-family:"Noto Serif TC","Songti TC",serif;font-size:19px;color:#443431}
+    .step p{margin:7px 0 0;color:#806e67;line-height:1.7}
+    .who-list{display:grid;gap:13px;margin-top:28px}
+    .who-list>div{background:#fff;border-radius:20px;padding:20px;display:grid;grid-template-columns:42px 1fr;gap:10px;align-items:center;box-shadow:0 10px 26px rgba(93,65,56,.05)}
+    .who-list em{font-family:Georgia,serif;font-size:24px;font-style:normal;color:#dc9b70}
+    .who-list span{font-size:16px;line-height:1.65;color:#4a3a36}
+    .final-section{text-align:center;padding-bottom:100px}
+    .spark{font-size:32px;color:#b98e82;display:block;margin-bottom:18px}
+    .center{text-align:center}.landing-cta{margin-top:28px}.signature{font-size:12px;letter-spacing:.08em;color:#a08c84;margin-top:28px}
+    @media(max-width:420px){
+      .editorial-title{font-size:34px}.editorial-title.small{font-size:30px}
+      .landing-copy{font-size:16px}.landing-section{padding-top:48px;padding-bottom:54px}
+      .bottom-nav button{font-size:9px}.bottom-nav .icon{font-size:16px}
+    }
+
+
+/* V8 personal story homepage */
+.personal-home{max-width:720px;margin:0 auto;padding:30px 2px 92px}
+.personal-kicker{font-size:12px;letter-spacing:.18em;font-weight:900;color:#a76f53;margin-bottom:16px}
+.personal-mark{width:74px;height:74px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#d6a17e;color:white;font:24px Georgia,serif;margin:6px 0 26px;box-shadow:0 12px 28px rgba(109,73,58,.12)}
+.personal-title{font-family:"Times New Roman","Noto Serif TC","Songti TC",serif;font-size:39px;line-height:1.28;letter-spacing:-.045em;color:#3c2e2b;margin:0 0 24px}
+.personal-lead{font-size:17px;line-height:1.9;color:#6f5f59;margin:0 0 38px}
+.story-block{padding:8px 0 24px}
+.story-block p{font-size:16px;line-height:2;color:#75645e;margin:0 0 20px}
+.story-block b{color:#40322e}
+.story-quote{margin:30px 0;background:#fff;border-left:4px solid #d59a72;border-radius:0 22px 22px 0;padding:26px 23px;font-family:"Noto Serif TC","Songti TC",serif;font-size:22px;line-height:1.75;color:#44332f;box-shadow:0 16px 38px rgba(91,62,52,.07)}
+.turning-card{margin:22px -2px 38px;padding:34px 27px;border-radius:28px;background:linear-gradient(145deg,#efe0d8,#faf2ed);box-shadow:0 18px 42px rgba(91,62,52,.06)}
+.turning-card span{font-size:10px;letter-spacing:.18em;color:#9e7669;font-weight:900}
+.turning-card h2,.personal-ending h2{font-family:"Times New Roman","Noto Serif TC","Songti TC",serif;font-size:30px;line-height:1.4;color:#44332f;margin:13px 0}
+.turning-card p{font-size:16px;line-height:1.9;color:#725f58;margin:0}
+.personal-ending{text-align:center;margin:24px 0 32px;padding:40px 18px;background:#fffaf7;border:1px solid #ecddd6;border-radius:28px}
+.personal-ending .ending-spark{font-size:27px;color:#b88d81;margin-bottom:10px}
+.personal-ending p{line-height:1.9;color:#75645e}
+@media(max-width:420px){.personal-title{font-size:34px}.personal-lead{font-size:16px}.story-quote{font-size:20px}.turning-card h2,.personal-ending h2{font-size:27px}}
+
+
+/* V8 sales conversion section */
+.sales-story{max-width:720px;margin:0 auto;padding-bottom:90px}
+.sales-section{padding:54px 2px 62px;border-bottom:1px solid var(--line)}
+.sales-kicker{font-size:12px;letter-spacing:.12em;font-weight:900;color:#a76d4d;margin-bottom:18px}
+.sales-title{font-family:"Times New Roman","Noto Serif TC","Songti TC",serif;font-size:38px;line-height:1.3;letter-spacing:-.04em;color:#3e302c;margin:0 0 25px}
+.sales-title.small{font-size:32px}
+.sales-copy{font-size:16px;line-height:1.95;color:#76645e;margin:0 0 20px}
+.sales-copy b{color:#44332f}
+.growth-highlight{background:#fff;border-radius:26px;padding:28px 24px;margin:30px 0;box-shadow:0 15px 36px rgba(89,62,52,.07);text-align:center}
+.growth-highlight span{font-size:10px;letter-spacing:.18em;color:#a98a7f;font-weight:900}
+.growth-highlight strong{display:block;font-family:Georgia,"Noto Serif TC",serif;font-size:27px;line-height:1.45;color:#a9633d;margin:12px 0}
+.growth-highlight p{font-size:14px;line-height:1.7;color:#806d65;margin:0}
+.mini-note{text-align:center;font-family:"Noto Serif TC","Songti TC",serif;font-size:18px;line-height:1.8;color:#57443e;padding:18px}
+.pain-bg,.audience-bg{background:linear-gradient(180deg,rgba(248,237,226,.62),rgba(255,250,247,.08));margin-left:-18px;margin-right:-18px;padding-left:22px;padding-right:22px}
+.sales-pains{display:grid;gap:13px}
+.sales-pains>div{background:#fff;border-radius:20px;padding:20px;display:grid;grid-template-columns:38px 1fr;gap:10px;box-shadow:0 9px 24px rgba(89,62,52,.05)}
+.sales-pains b{font-family:Georgia,serif;color:#d5946a;font-size:18px}
+.sales-pains span{font-size:15px;line-height:1.75;color:#4d3d38}
+.sales-quote{margin:30px 0 0;text-align:center;font-family:"Noto Serif TC","Songti TC",serif;font-size:19px;line-height:1.8;color:#503c36}
+.gain-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-top:28px}
+.gain-grid>div{background:#fff;border-radius:21px;padding:20px 17px;box-shadow:0 9px 24px rgba(89,62,52,.05)}
+.gain-grid i{display:block;color:#bc8775;font-style:normal;margin-bottom:9px}
+.gain-grid b{display:block;font-size:16px;color:#44342f;margin-bottom:7px}
+.gain-grid span{font-size:13px;line-height:1.65;color:#806d66}
+.audience-list{display:grid;gap:13px;margin-top:28px}
+.audience-list>div{background:#fff;border-radius:21px;padding:20px;display:grid;grid-template-columns:48px 1fr;gap:10px;align-items:center}
+.audience-list em{font:23px Georgia,serif;color:#d6976f;font-style:normal}
+.audience-list b{display:block;color:#44342f;font-size:16px;margin-bottom:5px}
+.audience-list small{display:block;color:#806e67;font-size:13px;line-height:1.55}
+.price-section{text-align:center;padding-top:62px}
+.price-badge{display:inline-block;background:#a96847;color:white;padding:7px 16px;border-radius:999px;font-size:12px;font-weight:900;letter-spacing:.08em}
+.price-now{font:56px Georgia,serif;color:#a85f39;margin:15px 0 4px}
+.price-original{font-size:14px;color:#87756e}.price-original s{font-size:18px}
+.price-card{text-align:left;background:#fff;border-radius:26px;padding:25px 24px;margin:30px 0 24px;box-shadow:0 16px 38px rgba(89,62,52,.07)}
+.price-card div{padding:9px 0;font-size:15px;color:#4c3b36;border-bottom:1px solid #f2e8e3}
+.price-card div:last-child{border-bottom:0}
+.price-message{font-size:15px;line-height:1.8;color:#75635d;margin:26px 0}
+.line-buy{display:flex;align-items:center;justify-content:center;gap:13px;text-decoration:none;background:#24c45a;color:#fff;border-radius:20px;padding:17px 18px;box-shadow:0 14px 28px rgba(36,196,90,.18)}
+.line-buy .line-circle{width:45px;height:45px;border-radius:50%;background:white;color:#20b752;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900}
+.line-buy b,.line-buy small{display:block;text-align:left}.line-buy b{font-size:17px}.line-buy small{font-size:11px;margin-top:3px;opacity:.9}
+.line-hint{font-size:10px;color:#aa9891;margin:11px 0 0}
+.sales-signoff{margin-top:36px;font-size:11px;letter-spacing:.13em;color:#a18b83}
+@media(max-width:420px){.sales-title{font-size:34px}.sales-title.small{font-size:29px}.gain-grid{grid-template-columns:1fr 1fr}.price-now{font-size:49px}}
+
+
+/* Purchase gate */
+.purchase-gate{position:fixed;inset:0;background:rgba(55,42,37,.55);backdrop-filter:blur(7px);z-index:9999;display:none;align-items:flex-end;justify-content:center;padding:18px}
+.purchase-gate.show{display:flex}
+.gate-card{width:min(100%,520px);background:#fffaf7;border-radius:30px;padding:30px 22px 25px;position:relative;box-shadow:0 24px 80px rgba(46,32,28,.25);text-align:center}
+.gate-close{position:absolute;right:18px;top:14px;border:0;background:transparent;font-size:28px;color:#9c857c}
+.gate-kicker{font-size:10px;letter-spacing:.18em;color:#a87660;font-weight:900}
+.gate-card h2{font-family:"Noto Serif TC","Songti TC",serif;font-size:29px;line-height:1.4;color:#43332e;margin:13px 0}
+.gate-card>p{font-size:14px;line-height:1.75;color:#7c6861}
+.gate-price{margin:18px 0}.gate-price b{display:block;font:31px Georgia,serif;color:#a85f39}.gate-price span{font-size:12px;color:#9a8881;text-decoration:line-through}
+.code-area{margin-top:22px;padding-top:20px;border-top:1px solid #eaded8;text-align:left}
+.code-area label{display:block;font-size:13px;font-weight:800;color:#5b4740;margin-bottom:9px}
+.code-area input{width:100%;box-sizing:border-box;border:1px solid #dfd0c9;background:#fff;border-radius:14px;padding:14px;font-size:15px;outline:none}
+.code-area button{width:100%;border:0;border-radius:14px;background:#8d6658;color:#fff;font-weight:900;padding:14px;margin-top:10px}
+.code-area small{display:block;text-align:center;color:#a16b5d;margin-top:9px;min-height:16px}
+
+</style>
+
+<style>
+/* Split edition: public sales site */
+#home,#quiz,#result,#tools,#bioLab,#profile{display:none!important}
+.bottom-nav{display:none!important}
+.purchase-gate{display:none!important}
+</style>
+
+</head>
+<body>
+
+<div id="welcome" class="welcome">
+  <div class="welcome-inner">
+    <div class="welcome-mark">LING｜找到你的品牌</div>
+    <h2>你不是沒有特色，<br>只是還沒看見自己的價值。</h2>
+    <p>不用變成別人喜歡的樣子。從你的故事開始，找到屬於你的內容方向與品牌光芒。</p>
+    <button class="cta" onclick="closeWelcome()">開始探索我的品牌 →</button>
+  </div>
+</div>
+
+<div class="app">
+  <header class="topbar">
+    <div class="brand">LING｜找到你的品牌</div>
+    <div class="tiny">@ling_02_02</div>
+  </header>
+
+  
+<section id="home" class="page">
+  <div class="personal-home">
+    <div class="personal-kicker">ABOUT LING · 關於我</div>
+    <div class="personal-mark">LING</div>
+    <h1 class="personal-title">我依然是護理師，<br>但我不再只有<br>「護理師」這一個答案。</h1>
+    <p class="personal-lead">哈囉大家好，我是伊玲 🤍<br>一個從護理師，慢慢走向自媒體、找回自己人生選擇權的人。</p>
+
+    <div class="story-block">
+      <p>畢業後，我待過<b>醫美、中醫到外科門診</b>，以前總覺得自己好像只能一直走護理這條路。</p>
+      <p>直到後來我開始學剪輯、經營 IG、接觸自媒體，才發現——</p>
+      <div class="story-quote">原來我走過的路、<br>我的故事和想法，<br><b>本身就能成為價值。</b></div>
+      <p>我不需要等自己很厲害、很有專長才開始，而是在分享的過程中，慢慢找到自己的定位與差異。</p>
+    </div>
+
+    <div class="turning-card">
+      <span>MY TURNING POINT</span>
+      <h2>我決定把時間<br>拿回自己手上。</h2>
+      <p>後來我也決定離開原本的工作，因為我想把時間拿回來，累積真正屬於自己的<b>能力、內容與個人品牌。</b></p>
+    </div>
+
+    <div class="story-block">
+      <p>現在的我還在學、還在嘗試，但至少我越來越確定自己想走的方向。</p>
+      <p>未來我希望不只是經營自媒體，而是把自己學到的、走過的路分享出去，陪伴那些跟以前的我一樣<b>迷惘、不知道怎麼開始的人。</b></p>
+    </div>
+
+    <div class="personal-ending">
+      <div class="ending-spark">✦</div>
+      <h2>你不用等到很厲害，<br>才有資格開始。</h2>
+      <p>如果你也正在找自己的方向，<br><b>那我們一起邊走、邊找到答案。</b> 🤍</p>
+    </div>
+
+    <button class="cta" onclick="go('growthStory')">從我的成長，看看這套工具 →</button>
+    <button class="cta ghost" onclick="go('quiz')">直接開始找我的品牌</button>
+    <div class="signature">@ling_02_02 · 找到更好的自己</div>
+  </div>
+</section>
+
+<section id="quiz" class="page">
+    <div class="section-head">
+      <h2>品牌定位測驗</h2>
+      <p>越真實越有用，不需要寫得像履歷。</p>
+      <div class="progress"><div id="progressBar" style="width:20%"></div></div>
+      <div class="step-count"><span id="stepNow">1</span> / 5</div>
+    </div>
+
+    <div id="step1" class="quiz-step card">
+      <h3>01｜你是誰</h3>
+      <label>名字 / 暱稱</label>
+      <input id="name" placeholder="例如：伊玲">
+      <label>目前身份</label>
+      <input id="identity" placeholder="例如：自媒體創作者、上班族">
+      <label>最有記憶點的一段經歷</label>
+      <textarea id="story" placeholder="例如：從工作內耗，到開始學剪輯、經營自媒體。"></textarea>
+    </div>
+
+    <div id="step2" class="quiz-step card hidden">
+      <h3>02｜你的個性與價值觀</h3>
+      <label>最明顯的 3 個特質</label>
+      <input id="traits" placeholder="例如：真實、敢說、溫柔">
+      <label>最重視的價值觀</label>
+      <textarea id="values" placeholder="例如：善良要有底線、成長比完美重要。"></textarea>
+      <label>希望觀眾感受到你的內容是什麼感覺？</label>
+      <input id="style" placeholder="例如：像朋友聊天、有共感、但有自己的觀點">
+    </div>
+
+    <div id="step3" class="quiz-step card hidden">
+      <h3>03｜你想吸引誰</h3>
+      <label>最想吸引哪一群人？</label>
+      <input id="audience" placeholder="例如：20–30 歲、想經營自媒體卻沒方向的女生">
+      <label>她們現在最大的困擾</label>
+      <textarea id="problem" placeholder="例如：不知道自己有什麼特色、不知道每天要發什麼。"></textarea>
+      <label>你希望她們最後變成什麼樣子？</label>
+      <textarea id="transformation" placeholder="例如：找到定位，敢分享，也知道怎麼把內容做下去。"></textarea>
+    </div>
+
+    <div id="step4" class="quiz-step card hidden">
+      <h3>04｜你的內容</h3>
+      <label>3 個主要內容主題</label>
+      <input id="topics" placeholder="例如：自媒體成長、情侶共鳴、變美日常">
+      <label>你最喜歡的內容形式</label>
+      <div class="choice-grid">
+        <button type="button" class="choice active" data-value="短影音口播">短影音口播</button>
+        <button type="button" class="choice" data-value="日常 Vlog">日常 Vlog</button>
+        <button type="button" class="choice" data-value="輪播圖文">輪播圖文</button>
+        <button type="button" class="choice" data-value="限動分享">限動分享</button>
+      </div>
+      <input type="hidden" id="format" value="短影音口播">
+    </div>
+
+    <div id="step5" class="quiz-step card hidden">
+      <h3>05｜你的目標</h3>
+      <label>經營個人品牌最想達成什麼？</label>
+      <select id="goal">
+        <option>建立個人影響力</option>
+        <option>打造副業收入</option>
+        <option>接案與合作</option>
+        <option>銷售自己的產品或服務</option>
+        <option>單純記錄與分享</option>
+      </select>
+      <label>希望觀眾看完內容後做什麼？</label>
+      <input id="ctaGoal" placeholder="例如：收藏、留言、追蹤、私訊我">
+    </div>
+
+    <div class="nav-actions">
+      <button id="prevBtn" class="cta ghost" onclick="prevStep()" style="visibility:hidden">上一題</button>
+      <button id="nextBtn" class="cta" onclick="nextStep()">下一題</button>
+    </div>
+  </section>
+
+  <section id="result" class="page">
+    <div class="section-head">
+      <h2>你的品牌定位結果</h2>
+      <p>這份結果是你的「第一版品牌地圖」。</p>
+    </div>
+
+    <div class="result-hero">
+      <div class="kicker">YOUR BRAND POSITIONING</div>
+      <h2 id="positioning"></h2>
+    </div>
+
+    <div class="result-card">
+      <h3>你的創作者人格</h3>
+      <div class="score-big" id="creatorTypeName"></div>
+      <p id="creatorTypeDesc"></p>
+    </div>
+
+    <div class="result-card">
+      <h3>品牌完成度</h3>
+      <div class="score-big"><span id="brandScore">0</span>%</div>
+      <div class="progress"><div id="brandScoreBar" style="width:0%"></div></div>
+      <p id="brandScoreText"></p>
+    </div>
+
+    <div class="result-card">
+      <h3>你的品牌雷達</h3>
+      <div id="radarBox" class="radar"></div>
+    </div>
+
+    <div class="result-card">
+      <h3>你是誰</h3>
+      <p id="who"></p>
+    </div>
+    <div class="result-card">
+      <h3>你幫誰</h3>
+      <p id="help"></p>
+    </div>
+    <div class="result-card">
+      <h3>你說什麼</h3>
+      <p id="say"></p>
+    </div>
+    <div class="result-card">
+      <h3>3 大內容支柱</h3>
+      <div id="pillars" class="pill-wrap"></div>
+    </div>
+    <div class="result-card">
+      <h3>現在最該優先做的 3 件事</h3>
+      <p id="priorityAdvice"></p>
+    </div>
+    <div class="result-card">
+      <h3>IG Bio 草稿</h3>
+      <p id="bio"></p>
+    </div>
+
+    <button class="cta secondary" onclick="copyResult()">一鍵複製結果</button>
+    <button class="cta ghost" onclick="makeShareCard()">產生分享卡</button>
+
+    <div id="shareWrap" class="hidden">
+      <div class="share-card" id="shareCard">
+        <div style="font-size:12px;letter-spacing:.14em;color:#8c7062;font-weight:900">MY CREATOR PROFILE</div>
+        <h3 id="shareName" style="font-size:28px;margin:12px 0 6px"></h3>
+        <div id="shareType" style="font-weight:900;color:#8c7062"></div>
+        <p id="sharePosition" style="line-height:1.7"></p>
+        <div id="sharePillars" class="pill-wrap" style="justify-content:center;margin-top:16px"></div>
+        <div id="shareScore" style="font-size:13px;color:#786e68;margin-top:16px"></div>
+        <div style="font-size:12px;color:#786e68;margin-top:20px">@ling_02_02 · LING</div>
+      </div>
+      <button class="cta secondary" onclick="downloadShareCard()">下載分享卡 PNG</button>
+      <canvas id="shareCanvas" width="1080" height="1350"></canvas>
+    </div>
+  </section>
+
+  <section id="tools" class="page">
+    <div class="section-head">
+      <h2>內容工具箱</h2>
+      <p>把定位直接變成你可以發出去的內容。</p>
+    </div>
+
+    <div class="tool-grid">
+      <button class="tool" onclick="buildIdeas(10)">
+        <span class="emoji">🎬</span><b>10 個短影音選題</b><span>快速取得可直接開拍的題目。</span>
+      </button>
+      <button class="tool" onclick="buildHooks()">
+        <span class="emoji">⚡</span><b>爆款前三秒</b><span>產出 8 個強開頭。</span>
+      </button>
+      <button class="tool" onclick="buildContentPlan()">
+        <span class="emoji">🗓️</span><b>7 天內容企劃</b><span>快速安排一週內容。</span>
+      </button>
+      <button class="tool" onclick="buildCTA()">
+        <span class="emoji">💬</span><b>留言 CTA</b><span>收藏、留言、私訊引導。</span>
+      </button>
+      <button class="tool" onclick="buildChecklist()">
+        <span class="emoji">✅</span><b>發布前檢核</b><span>影片發布前快速自評。</span>
+      </button>
+      <button class="tool" onclick="buildProfileAudit()">
+        <span class="emoji">🔍</span><b>IG 帳號健檢</b><span>檢查定位與版面是否一致。</span>
+      </button>
+      <button class="tool locked" onclick="buildIdeas(30)">
+        <span class="emoji">🔥</span><b>30 天內容題庫</b><span>依照三大內容支柱生成完整題庫。</span>
+      </button>
+      <button class="tool locked" onclick="buildMonetization()">
+        <span class="emoji">💰</span><b>變現方向建議</b><span>依照你的定位推薦可發展產品。</span>
+      </button>
+      <button class="tool" onclick="go('bioLab')">
+        <span class="emoji">🪪</span><b>BIO 人格分析</b><span>分析 IG 黃金 4 行與轉粉力。</span>
+      </button>
+    </div>
+
+    <div id="toolOutput" class="result-card hidden">
+      <h3 id="toolTitle"></h3>
+      <p id="toolText"></p>
+    </div>
+  </section>
+
+  <section id="planner" class="page">
+    <div class="section-head">
+      <h2>30 天內容地圖</h2>
+      <p>完成測驗後，這裡會依照你的 3 大支柱排出內容方向。</p>
+    </div>
+    <div id="calendarGrid" class="calendar-grid"></div>
+    <button class="cta secondary" onclick="render30Days()">重新生成 30 天</button>
+  </section>
+
+
+  
+<section id="growthStory" class="page active">
+  <div class="sales-story">
+
+    <div class="sales-section">
+      <div class="sales-kicker">不是突然變厲害，是慢慢找到方法</div>
+      <h1 class="sales-title">從輪播幾乎沒人看，<br>到現在每一篇<br>都慢慢翻了好幾倍。</h1>
+      <p class="sales-copy">剛開始經營 IG 的時候，我也不是一發文就有人看。做了很多內容、花很多時間排版，發出去卻只有一點點觀看，甚至會開始懷疑：<b>是不是我的內容根本沒有人想看？</b></p>
+      <p class="sales-copy">但我沒有停在「是不是我不適合」這件事上，而是開始重新研究定位、內容結構、前三秒、受眾到底在意什麼。</p>
+
+      <div class="growth-highlight">
+        <span>CONTENT GROWTH</span>
+        <strong>從沒人看 → 慢慢翻好幾倍</strong>
+        <p>當定位越來越清楚，輪播的觸及、互動開始增加，粉絲數也跟著慢慢往上走。</p>
+      </div>
+
+      <div class="mini-note">我不是因為一開始就很會，<br>而是做了之後，才慢慢知道怎麼做得更好。</div>
+    </div>
+
+    <div class="sales-section pain-bg">
+      <div class="sales-kicker">這套工具，是寫給正在卡住的你</div>
+      <h2 class="sales-title small">你是不是也<br>遇過這些狀況？</h2>
+      <div class="sales-pains">
+        <div><b>01</b><span>想開始經營 IG，卻每天都在想「我到底可以發什麼？」</span></div>
+        <div><b>02</b><span>明明很認真做內容，發出去卻沒什麼人看，也不知道問題在哪。</span></div>
+        <div><b>03</b><span>問 ChatGPT 一堆問題，答案看起來都很完整，卻怎麼看都不像自己。</span></div>
+        <div><b>04</b><span>什麼都想分享，結果帳號看起來很散，別人進首頁還是不知道你是誰。</span></div>
+        <div><b>05</b><span>想做副業、經營個人品牌，卻覺得自己「沒有專長、沒有特色」。</span></div>
+        <div><b>06</b><span>已經經營一段時間，卻越做越沒靈感，不知道下一篇還能說什麼。</span></div>
+      </div>
+      <div class="sales-quote">你不是沒有內容，<br><b>你只是還沒有把自己整理成「別人看得懂的品牌」。</b></div>
+    </div>
+
+    <div class="sales-section">
+      <div class="sales-kicker">這套工具可以帶給你什麼？</div>
+      <h2 class="sales-title small">不是再給你一堆答案，<br>而是幫你找到<br>屬於自己的答案。</h2>
+      <div class="gain-grid">
+        <div><i>✦</i><b>找到個人定位</b><span>整理你的經歷、個性、價值觀與優勢。</span></div>
+        <div><i>✦</i><b>找到內容方向</b><span>建立內容支柱，不再每天從零想題材。</span></div>
+        <div><i>✦</i><b>更懂你的受眾</b><span>知道你在跟誰說話，以及他們為什麼留下。</span></div>
+        <div><i>✦</i><b>讓內容更好看懂</b><span>從前三秒、CTA 到短影音題材，降低創作卡關。</span></div>
+        <div><i>✦</i><b>優化 IG 首頁</b><span>BIO 人格分析＋黃金 4 行，讓別人快速認識你。</span></div>
+        <div><i>✦</i><b>建立自己的品牌</b><span>不需要複製別人，也能長出自己的辨識度。</span></div>
+      </div>
+    </div>
+
+    <div class="sales-section audience-bg">
+      <div class="sales-kicker">適合你，如果你是</div>
+      <h2 class="sales-title small">想開始改變，<br>卻不知道第一步<br>該往哪裡走的人。</h2>
+      <div class="audience-list">
+        <div><em>01</em><span><b>自媒體新手</b><small>想經營 IG，但不知道從哪裡開始。</small></span></div>
+        <div><em>02</em><span><b>正在卡定位的人</b><small>發了很多內容，帳號卻還是沒有明確方向。</small></span></div>
+        <div><em>03</em><span><b>上班族／想發展副業的人</b><small>想慢慢累積真正屬於自己的能力與資產。</small></span></div>
+        <div><em>04</em><span><b>美業、生活、自媒體創作者</b><small>想讓內容不只好看，而是真的吸引對的人。</small></span></div>
+        <div><em>05</em><span><b>覺得自己「沒特色」的人</b><small>想重新看見自己的經歷其實很有價值。</small></span></div>
+      </div>
+    </div>
+
+    <div class="sales-section price-section">
+      <div class="price-badge">首發限定</div>
+      <div class="price-now">NT$899</div>
+      <div class="price-original">原價 <s>NT$1,299</s>・現省 NT$400</div>
+
+      <div class="price-card">
+        <div>✓ 個人品牌定位＋創作者人格</div>
+        <div>✓ 品牌完成度＋內容方向分析</div>
+        <div>✓ 短影音題材＋爆款前三秒</div>
+        <div>✓ 7 天企劃＋30 天內容地圖</div>
+        <div>✓ IG BIO 人格分析＋黃金 4 行</div>
+        <div>✓ CTA、IG 健檢與變現方向</div>
+        <div>✓ 一次買斷・持續更新</div>
+      </div>
+
+      <p class="price-message">如果你也不想再一直站在原地想「我到底能做什麼」，<br><b>這一次，先從看懂自己開始。</b></p>
+
+      <a class="line-buy" id="lineBuyBtn" href="#" onclick="return openLinePurchase();">
+        <span class="line-circle">LINE</span>
+        <span><b>確認購買・前往 LINE</b><small>付款後取得完整使用權</small></span>
+      </a>
+      <p class="line-hint">※ LINE 連結可在程式內替換成你的官方 LINE 網址</p>
+
+      <div class="sales-signoff">LING · 找到更好的自己 🤍</div>
+    </div>
+  </div>
+</section>
+
+<section id="bioLab" class="page">
+    <div class="section-head">
+      <h2>BIO 人格分析</h2>
+      <p>你的 IG 自介不是履歷，而是觀眾進主頁後，幾秒內決定「要不要追蹤你」的門面。</p>
+    </div>
+
+    <div class="card">
+      <span class="badge">IG 黃金 4 行公式</span>
+      <label>貼上你目前的 IG BIO</label>
+      <textarea id="currentBio" style="min-height:150px" placeholder="例如：
+護理師轉型自媒體創作者
+分享自媒體成長｜情侶｜變美日常
+不喝咖啡只喝奶茶 ☕️
+👇 免費領取個人品牌定位工具"></textarea>
+      <div class="notice">建議依照 IG 顯示方式換行貼上，分析會更準確。</div>
+      <button class="cta" onclick="analyzeBio()">分析我的 BIO →</button>
+    </div>
+
+    <div id="bioResult" class="hidden">
+      <div class="result-hero">
+        <div class="kicker">BIO PERSONALITY REPORT</div>
+        <h2 id="bioPersonality"></h2>
+      </div>
+
+      <div class="result-card">
+        <h3>BIO 完成度</h3>
+        <div class="score-big"><span id="bioScore">0</span>%</div>
+        <div class="progress"><div id="bioScoreBar" style="width:0%"></div></div>
+        <p id="bioScoreDesc"></p>
+      </div>
+
+      <div class="result-card">
+        <h3>① 你是誰？｜身份＋成果</h3>
+        <p id="bioLine1"></p>
+      </div>
+      <div class="result-card">
+        <h3>② 你能提供什麼價值？</h3>
+        <p id="bioLine2"></p>
+      </div>
+      <div class="result-card">
+        <h3>③ 人設溫度</h3>
+        <p id="bioLine3"></p>
+      </div>
+      <div class="result-card">
+        <h3>④ 行動呼籲 CTA</h3>
+        <p id="bioLine4"></p>
+      </div>
+
+      <div class="result-card">
+        <h3>你的 BIO 人格</h3>
+        <p id="bioPersonaDetail"></p>
+      </div>
+
+      <div class="result-card">
+        <h3>最需要先修改的地方</h3>
+        <p id="bioPriority"></p>
+      </div>
+
+      <div class="result-card">
+        <h3>✨ 黃金 4 行優化版</h3>
+        <p id="optimizedBio" style="font-size:16px;font-weight:700"></p>
+      </div>
+
+      <button class="cta secondary" onclick="copyOptimizedBio()">一鍵複製優化 BIO</button>
+      <button class="cta ghost" onclick="generateBioVersions()">再生成 3 種風格</button>
+
+      <div id="bioVersions" class="hidden">
+        <div class="result-card"><h3>專業結果型</h3><p id="bioProfessional"></p></div>
+        <div class="result-card"><h3>真實共感型</h3><p id="bioWarm"></p></div>
+        <div class="result-card"><h3>吸睛記憶型</h3><p id="bioCatchy"></p></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-top:0">IG 黃金 4 行公式</h3>
+      <p style="line-height:1.9;color:var(--muted)">
+        <b style="color:var(--text)">第一行｜你是誰？</b><br>
+        不只寫職業，而是「身份＋經歷／成果」，讓人知道為什麼值得聽你說。<br><br>
+        <b style="color:var(--text)">第二行｜你能提供什麼價值？</b><br>
+        清楚說明追蹤你之後，可以得到什麼。<br><br>
+        <b style="color:var(--text)">第三行｜增加人設溫度</b><br>
+        加入反差、興趣、小習慣或個性，讓自介不像公司簡介。<br><br>
+        <b style="color:var(--text)">第四行｜CTA</b><br>
+        明確告訴觀眾下一步：領取、留言、私訊或點連結。
+      </p>
+    </div>
+  </section>
+
+
+  <section id="aboutLing" class="page">
+    <div class="landing-wrap">
+      <div class="landing-section intro-section">
+        <div class="eyebrow">關於這份工具</div>
+        <div class="ling-avatar">LING</div>
+        <h1 class="editorial-title">我不是一開始<br>就知道自己要做什麼</h1>
+        <p class="landing-copy">我也曾經把「工作」當成自己的全部。換過不同環境、做過不同選擇，直到後來才慢慢發現：<b>真正能帶走的，不只是職稱，而是你一路累積下來的故事、能力與想法。</b></p>
+        <p class="landing-copy">開始經營自媒體後，我也不是突然就會定位、會剪輯、會寫內容。很多東西都是一邊做、一邊跌倒，再一邊把方法整理出來。</p>
+        <div class="quote-card">「沒有白走的路。過去所有的積累，都會在新的舞台上加倍回饋給你。」</div>
+      </div>
+
+      <div class="landing-section">
+        <div class="eyebrow">為什麼做這個工具</div>
+        <h2 class="editorial-title small">我以前也以為<br>「我好像沒什麼特別」</h2>
+        <p class="landing-copy">但後來我發現，很多人不是沒有特色，而是<b>太習慣自己的人生，所以看不見自己的價值。</b></p>
+        <div class="pain-grid">
+          <div class="pain-card"><span>01</span><p>想經營自媒體，卻不知道自己到底適合分享什麼。</p></div>
+          <div class="pain-card"><span>02</span><p>問 AI 得到一堆答案，但看起來很制式，完全不像自己。</p></div>
+          <div class="pain-card"><span>03</span><p>拍了一段時間，題材越來越乾，開始懷疑是不是自己沒天份。</p></div>
+          <div class="pain-card"><span>04</span><p>IG 有內容，觀眾進到首頁卻還是不知道「為什麼要追蹤你」。</p></div>
+        </div>
+      </div>
+
+      <div class="landing-section warm-section">
+        <div class="eyebrow">這份工具在做什麼</div>
+        <h2 class="editorial-title small">不是把你變成別人<br>而是把「你」整理清楚</h2>
+        <p class="landing-copy">我把自己經營內容時最常反覆思考的問題，整理成一套可以直接操作的流程。從你的<b>經歷、個性、價值觀、受眾、內容方向</b>開始，一步步拼出專屬於你的品牌輪廓。</p>
+        <div class="benefit-card green"><b>✓ 找到你是誰</b><span>把經歷與個性整理成有辨識度的創作者人格</span></div>
+        <div class="benefit-card blue"><b>✓ 找到你能幫誰</b><span>不再對所有人說話，而是知道你的內容真正想陪伴誰</span></div>
+        <div class="benefit-card peach"><b>✓ 找到你可以說什麼</b><span>從內容支柱延伸題材，讓你不再每次發文都從零開始</span></div>
+        <div class="benefit-card rose"><b>✓ 把首頁變得更會轉粉</b><span>BIO 人格分析＋IG 黃金 4 行，讓別人一進來就看懂你</span></div>
+      </div>
+
+      <div class="landing-section">
+        <div class="eyebrow">怎麼使用</div>
+        <h2 class="editorial-title small">幾個小步驟<br>全程手機就能完成</h2>
+        <div class="steps">
+          <div class="step"><i>1</i><div><b>完成你的品牌定位</b><p>跟著問題填寫，不需要一次就想得很完美。</p></div></div>
+          <div class="step"><i>2</i><div><b>看懂你的創作者人格</b><p>整理「你是誰、你幫誰、你說什麼」，找到最適合你的表達方式。</p></div></div>
+          <div class="step"><i>3</i><div><b>直接拿內容工具開始做</b><p>從題材、前三秒、7 天企劃到 30 天內容地圖，把想法變成行動。</p></div></div>
+          <div class="step"><i>4</i><div><b>最後優化你的 IG BIO</b><p>用黃金 4 行公式，讓首頁不只是介紹你，而是讓對的人留下來。</p></div></div>
+        </div>
+      </div>
+
+      <div class="landing-section">
+        <div class="eyebrow">適合你，如果你是</div>
+        <h2 class="editorial-title small">正在找方向的<br>這五種人</h2>
+        <div class="who-list">
+          <div><em>1</em><span>完全零經驗，卻很想開始經營自媒體</span></div>
+          <div><em>2</em><span>上班族，想把下班後的時間慢慢變成自己的資產</span></div>
+          <div><em>3</em><span>已經開始經營，但定位一直改、內容很容易卡住</span></div>
+          <div><em>4</em><span>有產品／副業，卻不想讓自己的帳號只剩下「賣東西」</span></div>
+          <div><em>5</em><span>想建立有個性、有溫度，也真正像自己的個人品牌</span></div>
+        </div>
+      </div>
+
+      <div class="landing-section final-section">
+        <span class="spark">✦</span>
+        <div class="eyebrow">LING BRAND LAB</div>
+        <h2 class="editorial-title small">你不需要先變得很厲害<br>才有資格開始</h2>
+        <p class="landing-copy center">你的經歷、你在意的事、你走過的路，本來就可以成為內容。<br><b>先找到自己，再讓對的人找到你。</b></p>
+        <button class="cta landing-cta" onclick="go('growthStory')">看看這套工具適不適合我 →</button>
+        <button class="cta ghost" onclick="go('bioLab')">先分析我的 IG BIO</button>
+        <div class="signature">@ling_02_02 · 把真實活成自己的品牌</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="profile" class="page">
+    <div class="section-head">
+      <h2>我的品牌檔案</h2>
+      <p>這台裝置會記住你填過的資料。</p>
+    </div>
+    <div class="card">
+      <p id="savedSummary">目前還沒有完成測驗。</p>
+      <button class="cta secondary" onclick="go('quiz')">重新編輯定位</button>
+      <button class="cta ghost" onclick="clearData()">清除資料</button>
+    </div>
+  </section>
+
+  <nav class="bottom-nav">
+    <button data-page="home" class="active" onclick="go('home')"><span class="icon">⌂</span>首頁</button>
+    <button data-page="quiz" onclick="go('quiz')"><span class="icon">✦</span>定位</button>
+    <button data-page="tools" onclick="go('tools')"><span class="icon">▦</span>工具</button>
+    <button data-page="planner" onclick="go('planner')"><span class="icon">◫</span>30天</button>
+    <button data-page="bioLab" onclick="go('bioLab')"><span class="icon">✎</span>BIO</button>
+    <button data-page="growthStory" onclick="go('growthStory')"><span class="icon">♡</span>適合誰</button>
+    <button data-page="aboutLing" onclick="go('aboutLing')"><span class="icon">✦</span>介紹</button>
+    <button data-page="profile" onclick="go('profile')"><span class="icon">☺</span>我的</button>
+  </nav>
+</div>
+
+<script>
+let currentStep=1;
+const ids=["name","identity","story","traits","values","style","audience","problem","transformation","topics","format","goal","ctaGoal","currentBio"];
+
+function closeWelcome(){
+  localStorage.setItem('lingV8Welcome','1');
+  document.getElementById('welcome').classList.add('hide');
+  setTimeout(()=>document.getElementById('welcome').style.display='none',350);
+}
+if(localStorage.getItem('lingV8Welcome')){
+  document.getElementById('welcome').style.display='none';
+}
+
+function go(page){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(page).classList.add('active');
+  document.querySelectorAll('.bottom-nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===page));
+  if(page==='profile') updateSavedSummary();
+  if(page==='planner') render30Days();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+document.querySelectorAll('.choice').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.choice').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('format').value=btn.dataset.value;
+  });
+});
+
+function v(id,fallback=''){return (document.getElementById(id).value||'').trim()||fallback}
+function topics(){
+  let a=v('topics','成長、自媒體、生活').split(/[、,，/｜|]/).map(x=>x.trim()).filter(Boolean).slice(0,3);
+  while(a.length<3)a.push(['成長','生活','觀點'][a.length]);
+  return a;
+}
+function saveData(){
+  const d={};ids.forEach(id=>d[id]=document.getElementById(id).value);
+  localStorage.setItem('lingBrandDataV5',JSON.stringify(d));
+}
+function loadData(){
+  const raw=localStorage.getItem('lingBrandDataV5')||localStorage.getItem('lingBrandData');
+  if(!raw)return;
+  try{
+    const d=JSON.parse(raw);
+    ids.forEach(id=>{if(d[id]!==undefined)document.getElementById(id).value=d[id]});
+    document.querySelectorAll('.choice').forEach(b=>b.classList.toggle('active',b.dataset.value===document.getElementById('format').value));
+  }catch(e){}
+}
+function updateProgress(){
+  document.querySelectorAll('.quiz-step').forEach((s,i)=>s.classList.toggle('hidden',i+1!==currentStep));
+  document.getElementById('stepNow').textContent=currentStep;
+  document.getElementById('progressBar').style.width=(currentStep/5*100)+'%';
+  document.getElementById('prevBtn').style.visibility=currentStep===1?'hidden':'visible';
+  document.getElementById('nextBtn').textContent=currentStep===5?'產生我的品牌報告 ✨':'下一題';
+}
+function nextStep(){
+  saveData();
+  if(currentStep<5){currentStep++;updateProgress();window.scrollTo({top:100,behavior:'smooth'});}
+  else generateBrand();
+}
+function prevStep(){if(currentStep>1){currentStep--;updateProgress();window.scrollTo({top:100,behavior:'smooth'});}}
+
+function creatorScores(){
+  const all=(v('style')+' '+v('story')+' '+v('topics')+' '+v('values')+' '+v('format')+' '+v('goal')).toLowerCase();
+  let s={故事力:45,專業力:45,共感力:45,吸睛力:45};
+  if(v('story').length>35)s.故事力+=30;
+  if(/故事|日常|vlog|經歷|轉變/.test(all))s.故事力+=20;
+  if(/教學|技巧|知識|剪輯|理財|自媒體|步驟|專業/.test(all))s.專業力+=35;
+  if(/共感|療癒|溫柔|情侶|感情|陪伴|真實/.test(all))s.共感力+=35;
+  if(/爆款|短影音|reels|口播|吸睛|熱門|趨勢/.test(all))s.吸睛力+=35;
+  Object.keys(s).forEach(k=>s[k]=Math.min(98,s[k]));
+  return s;
+}
+function getCreatorType(){
+  const s=creatorScores();
+  const top=Object.entries(s).sort((a,b)=>b[1]-a[1])[0][0];
+  const map={
+    故事力:['故事型創作者','你最有力量的是把真實經歷說成讓人有代入感的故事。適合「前後轉變、日常故事、POV、成長紀錄」。','故事＋轉折＋觀點'],
+    專業力:['導航型創作者','你擅長把複雜的事情整理成清楚的方法。觀眾會因為「跟著你就知道怎麼做」而留下。','教學＋懶人包＋步驟'],
+    共感力:['共感型創作者','你的優勢是情緒感受與陪伴感。觀眾會因為「你很懂我」而持續追蹤。','共鳴＋關係＋療癒'],
+    吸睛力:['吸睛型創作者','你適合運用節奏、反差與前三秒鉤子抓住注意力，再加入自己的觀點形成辨識度。','鉤子＋趨勢＋反差']
+  };
+  return {name:map[top][0],desc:map[top][1],formula:map[top][2],scores:s};
+}
+function calcBrandScore(){
+  const check=['name','identity','story','traits','values','style','audience','problem','transformation','topics','ctaGoal'];
+  const filled=check.filter(id=>v(id,'').length>=3).length;
+  return Math.max(20,Math.round(filled/check.length*100));
+}
+function priority(score,type){
+  const t=topics();
+  if(score<60)return `1. 先把「受眾＋痛點」寫得更具體。\n2. 固定 ${t.join('、')} 這 3 個支柱至少 2–4 週。\n3. 每篇加入一個自己的故事或觀點。`;
+  if(score<85)return `1. 讓 Bio、封面與內容都對齊同一群受眾。\n2. 放大你的「${type.formula}」優勢。\n3. 開始設定固定 CTA，建立觀眾下一步。`;
+  return `1. 你的基礎定位已完整，下一步是穩定輸出與看數據。\n2. 每週測試 2 種不同前三秒。\n3. 把高互動內容做成固定系列與可重複資產。`;
+}
+function generateBrand(){
+  saveData();
+  const name=v('name','你'),identity=v('identity','內容創作者'),story=v('story','正在把自己的經歷整理成有價值的內容');
+  const traits=v('traits','真實、有想法、有共感'),values=v('values','做自己、持續成長');
+  const audience=v('audience','正在找方向、想讓自己變得更好的年輕女生');
+  const problem=v('problem','不知道自己有什麼特色，也不知道怎麼開始');
+  const transformation=v('transformation','找到自己的特色，開始有方向地行動');
+  const style=v('style','真實、像朋友聊天、有共感'),format=v('format','短影音口播'),goal=v('goal','建立個人影響力');
+  const cta=v('ctaGoal','收藏、留言或追蹤'),t=topics(),type=getCreatorType(),score=calcBrandScore();
+
+  document.getElementById('positioning').textContent=`${name}｜用 ${t.join(' × ')}，陪伴${audience}，從「${problem}」走向「${transformation}」。`;
+  document.getElementById('creatorTypeName').textContent=type.name;
+  document.getElementById('creatorTypeDesc').textContent=`${type.desc}\n最適合你的內容公式：${type.formula}`;
+  document.getElementById('brandScore').textContent=score;
+  document.getElementById('brandScoreBar').style.width=score+'%';
+  document.getElementById('brandScoreText').textContent=score<60?'定位骨架還可以再補完整。':score<85?'定位已成形，下一步是建立一致性。':'品牌基礎很完整，可以開始放大與系列化。';
+
+  const radar=document.getElementById('radarBox');radar.innerHTML='';
+  Object.entries(type.scores).forEach(([k,val])=>{
+    radar.innerHTML+=`<div class="radar-row"><span>${k}</span><div class="bar"><div style="width:${val}%"></div></div><b>${val}</b></div>`;
+  });
+
+  document.getElementById('who').textContent=`我是${name}，現在是一名${identity}。\n我的故事是：${story}。\n我的品牌氣質是「${traits}」，核心價值觀是「${values}」。`;
+  document.getElementById('help').textContent=`我想吸引的是：${audience}。\n她們目前最常卡在：${problem}。\n我希望我的內容可以陪她們走向：${transformation}。`;
+  document.getElementById('say').textContent=`我會圍繞「${t.join('、')}」持續分享，以${style}的方式表達，主要形式是${format}。\n經營目標：${goal}；希望觀眾看完後願意${cta}。`;
+  const p=document.getElementById('pillars');p.innerHTML='';t.forEach((x,i)=>p.innerHTML+=`<span class="pill">0${i+1} ${x}</span>`);
+  document.getElementById('priorityAdvice').textContent=priority(score,type);
+  document.getElementById('bio').textContent=`${name}｜${identity}\n${t.join(' × ')}\n陪你從「${problem}」→「${transformation}」\n${style}`;
+  localStorage.setItem('lingBrandCompletedV5','1');
+  go('result');
+}
+
+function showTool(title,text){
+  document.getElementById('toolTitle').textContent=title;
+  document.getElementById('toolText').textContent=text;
+  document.getElementById('toolOutput').classList.remove('hidden');
+  document.getElementById('toolOutput').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function ideaPool(){
+  const t=topics(),a=v('audience','想變更好的女生'),p=v('problem','不知道怎麼開始');
+  return [
+    `我以前也以為自己沒有特色，直到我發現這件事`,
+    `${a}最容易卡住的 3 個地方`,
+    `如果你也正在「${p}」，先做這一步`,
+    `關於${t[0]}，我最後悔太晚知道的 3 件事`,
+    `我的${t[1]}真實日常：其實沒有你想的那麼完美`,
+    `我現在不再相信的 3 個觀念`,
+    `如果重新開始經營，我一定先做這件事`,
+    `${t[2]}讓我改變最大的地方`,
+    `一個沒人告訴你的${t[0]}真相`,
+    `給還在找方向的你：先不要急著變厲害`,
+    `我做${t[0]}後才懂的 5 件事`,
+    `新手做${t[1]}最常犯的錯`,
+    `我曾經超不敢做這件事，現在反而很慶幸`,
+    `如果只能留下一個${t[2]}習慣，我會選這個`,
+    `POV：當你終於不再為了討好別人經營`,
+    `這支不是教你變完美，而是教你怎麼開始`,
+    `我最常被問的${t[0]}問題，一次回答`,
+    `關於${t[1]}，網路上很少人告訴你的真相`,
+    `一個讓我少走很多冤枉路的小習慣`,
+    `如果你現在很迷茫，先完成這 3 件事`,
+    `我以前以為流量最重要，後來才發現不是`,
+    `這件小事居然讓我的內容更有記憶點`,
+    `為什麼我不再追求每天都發內容`,
+    `我怎麼把普通生活變成可以發的內容`,
+    `沒專長也能經營嗎？我的答案是`,
+    `我最想對剛開始經營的自己說的話`,
+    `一支影片只做對這件事，就贏很多人`,
+    `你不是沒內容，你只是還沒有內容支柱`,
+    `我如何決定今天到底要發什麼`,
+    `這 30 天，我想測試一件事：只做有定位的內容`
+  ];
+}
+function buildIdeas(n){
+  const arr=ideaPool().slice(0,n).map((x,i)=>`${i+1}. ${x}`).join('\n');
+  showTool(`${n} 個內容題目`,arr);
+}
+function buildHooks(){
+  showTool('8 個爆款前三秒',[
+    `1. 我發現很多人不是沒內容，是一開始就做錯這件事。`,
+    `2. 先別急著拍，這個錯誤會直接讓人滑走。`,
+    `3. 如果你到現在還在「${v('problem','不知道怎麼開始')}」，這支先看完。`,
+    `4. 我以前也以為這很難，後來才發現根本不是。`,
+    `5. 這件事我真的太晚知道了。`,
+    `6. 有些人做了半年都沒起色，問題其實在前三秒。`,
+    `7. 你以為大家在看內容，其實第一秒就在決定要不要走。`,
+    `8. 不是你沒特色，是你還沒把自己講清楚。`
+  ].join('\n'));
+}
+function buildContentPlan(){
+  const t=topics();
+  showTool('7 天內容企劃',[
+    `DAY 1｜故事型：我為什麼開始分享「${t[0]}」`,
+    `DAY 2｜乾貨型：關於${t[0]}，新手最容易犯的 3 個錯誤`,
+    `DAY 3｜日常型：我的${t[1]}真實一天`,
+    `DAY 4｜共鳴型：如果你最近也在懷疑自己，這段話給你`,
+    `DAY 5｜觀點型：關於${t[2]}，我有一個不太一樣的看法`,
+    `DAY 6｜互動型：你比較想看 A 還是 B？`,
+    `DAY 7｜總結型：這週我學到最重要的 3 件事`
+  ].join('\n'));
+}
+function buildCTA(){
+  showTool('留言 CTA 產生器',[
+    `收藏型｜怕之後找不到，先收藏起來。`,
+    `留言型｜你現在最卡哪一步？留言告訴我。`,
+    `關鍵字型｜想要完整版懶人包，底下留言「定位」。`,
+    `共鳴型｜如果你也有過一樣的感覺，留一個 🤍。`,
+    `追蹤型｜想一起成長，可以先追蹤我。`,
+    `私訊型｜如果你不知道自己適合哪個方向，可以私訊我。`
+  ].join('\n'));
+}
+function buildChecklist(){
+  showTool('發布前檢核',[
+    `□ 前 3 秒有沒有一句讓人想繼續看的話？`,
+    `□ 這支影片只講一個重點嗎？`,
+    `□ 觀眾看得出來這支是在講給誰聽嗎？`,
+    `□ 有沒有加入你的經歷、觀點或情緒？`,
+    `□ 字幕夠大、節奏沒有拖嗎？`,
+    `□ 中間有沒有至少一次轉折或資訊點？`,
+    `□ 結尾有沒有明確 CTA？`,
+    `□ 封面一眼看得懂這支在講什麼嗎？`
+  ].join('\n'));
+}
+function buildProfileAudit(){
+  const t=topics();
+  showTool('IG 帳號健檢',[
+    `1. 名稱：有沒有讓人一眼知道你是誰？`,
+    `2. Bio：有沒有寫清楚你幫誰？`,
+    `3. 最近 9 篇是否至少 70% 圍繞「${t.join('、')}」？`,
+    `4. 封面是否有一致的字體、語氣與辨識度？`,
+    `5. 精選能不能讓新觀眾 30 秒內認識你？`,
+    `6. 每支內容有沒有下一步 CTA？`
+  ].join('\n'));
+}
+function buildMonetization(){
+  const type=getCreatorType(),t=topics();
+  const map={
+    '故事型創作者':`適合：故事型電子書、陪跑社群、個人品牌故事顧問、UGC/品牌合作。`,
+    '導航型創作者':`適合：教學電子書、模板、懶人包、線上課程、顧問服務。`,
+    '共感型創作者':`適合：療癒圖文產品、會員社群、主題電子書、品牌合作。`,
+    '吸睛型創作者':`適合：短影音腳本模板、剪輯素材包、內容企劃服務、品牌合作。`
+  };
+  showTool('變現方向建議',`${type.name}\n${map[type.name]}\n\n你目前的 3 大主題：${t.join('、')}\n建議先從「低單價數位商品＋內容導流」開始驗證需求。`);
+}
+function render30Days(){
+  const grid=document.getElementById('calendarGrid');grid.innerHTML='';
+  ideaPool().forEach((idea,i)=>{
+    const d=document.createElement('div');d.className='day-card';
+    d.innerHTML=`<b>DAY ${i+1}</b><span>${idea}</span>`;
+    grid.appendChild(d);
+  });
+}
+
+function bioHas(text,regex){return regex.test(text)}
+function analyzeBio(){
+  const raw=v('currentBio','');
+  if(!raw){alert('先貼上你目前的 IG BIO，我才能幫你分析。');return;}
+  saveData();
+
+  const lines=raw.split(/\n+/).map(x=>x.trim()).filter(Boolean);
+  const full=lines.join(' ');
+  const l1=lines[0]||'', l2=lines[1]||'', l3=lines[2]||'', l4=lines.slice(3).join(' ')||'';
+
+  let s1=0,s2=0,s3=0,s4=0;
+
+  // Line 1: identity + credibility/results
+  if(l1.length>=4)s1+=25;
+  if(bioHas(l1,/創作者|護理|設計|攝影|剪輯|行銷|教練|顧問|老師|品牌|自媒體|業務|學生|闆娘|創業|導演/))s1+=30;
+  if(bioHas(l1,/\d|年|萬|品牌|轉型|經歷|幫助|操作|累積|合作|從.+到/))s1+=30;
+  if(l1.length>=8 && l1.length<=35)s1+=15;
+  s1=Math.min(100,s1);
+
+  // Line 2: value
+  if(l2.length>=5)s2+=20;
+  if(bioHas(l2,/教你|陪你|幫你|分享|讓你|帶你|打造|提升|學會|省下|從.+到/))s2+=40;
+  if(bioHas(l2,/內容|品牌|短影音|剪輯|成長|變美|情侶|理財|行銷|流量|自媒體|保養/))s2+=25;
+  if(bioHas(l2,/\d|零基礎|新手|每天|快速|簡單/))s2+=15;
+  s2=Math.min(100,s2);
+
+  // Line 3: warmth
+  if(l3.length>=3)s3+=20;
+  if(bioHas(l3,/喜歡|愛|不喝|只喝|日常|ENFP|水瓶|貓|奶茶|音樂|吃|旅行|反差|女孩|人|☕|🧋|🐱|♡|🤍|✨|😂/i))s3+=50;
+  if(!bioHas(l3,/教你|幫你|服務|專業|諮詢/) && l3.length>=5)s3+=30;
+  s3=Math.min(100,s3);
+
+  // Line 4: CTA
+  const ctaText=l4 || lines[lines.length-1] || '';
+  if(ctaText.length>=3)s4+=20;
+  if(bioHas(ctaText,/點|領取|免費|私訊|留言|下載|連結|諮詢|加入|看完整|立即|⬇|👇|link/i))s4+=60;
+  if(bioHas(ctaText,/模板|工具|懶人包|教學|定位|社群|課程|合作/))s4+=20;
+  s4=Math.min(100,s4);
+
+  const total=Math.round((s1+s2+s3+s4)/4);
+  document.getElementById('bioScore').textContent=total;
+  document.getElementById('bioScoreBar').style.width=total+'%';
+  document.getElementById('bioScoreDesc').textContent =
+    total>=85?'你的 BIO 結構很完整，接下來重點是把文字變得更有辨識度。':
+    total>=65?'已經有基本架構，但仍有一兩行沒有把價值說滿。':
+    total>=45?'觀眾大概知道你是誰，但「為什麼要追蹤」還不夠明確。':
+    '目前比較像自我介紹，還沒有形成能幫你轉粉的 BIO。';
+
+  const evalLine=(score,good,fix)=>score>=70?`${score} 分｜✓ ${good}`:`${score} 分｜△ ${fix}`;
+  document.getElementById('bioLine1').textContent=evalLine(s1,'身份與可信度清楚。','不要只放職稱，補上經歷、成果或轉變，增加「為什麼值得聽你說」的理由。');
+  document.getElementById('bioLine2').textContent=evalLine(s2,'觀眾能快速理解追蹤你的價值。','把「我分享什麼」改成「你追蹤我能得到什麼」，價值會更直接。');
+  document.getElementById('bioLine3').textContent=evalLine(s3,'有個人味，不會像公司簡介。','補一個反差、興趣、小習慣或個性標籤，增加記憶點。');
+  document.getElementById('bioLine4').textContent=evalLine(s4,'下一步行動清楚。','直接下指令，例如「👇免費領取定位工具」或「私訊我聊品牌定位」。');
+
+  let persona='';
+  if(s2>=75 && s1>=70) persona='專業價值型';
+  else if(s3>=75) persona='真實親近型';
+  else if(s4>=75) persona='行動轉換型';
+  else persona='生活自介型';
+  document.getElementById('bioPersonality').textContent=persona;
+  const personaMap={
+    '專業價值型':'你的自介擅長建立專業感與可信度。下一步不要再塞更多頭銜，而是補一點「人味」，讓觀眾除了相信你，也想認識你。',
+    '真實親近型':'你的自介很有人味，容易讓人覺得親近。下一步要補強「追蹤你到底能得到什麼」，避免只有可愛、沒有轉粉理由。',
+    '行動轉換型':'你很清楚要觀眾做下一步。接下來要確認前 3 行已經先建立足夠的身份、價值與信任，不然 CTA 會太快。',
+    '生活自介型':'目前比較像在介紹自己，而不是「為觀眾設計的首頁入口」。優先補上價值句與 CTA，轉粉力會差很多。'
+  };
+  document.getElementById('bioPersonaDetail').textContent=personaMap[persona];
+
+  const scores=[['第一行身份成果',s1],['第二行價值',s2],['第三行人設溫度',s3],['第四行 CTA',s4]].sort((a,b)=>a[1]-b[1]);
+  document.getElementById('bioPriority').textContent=`最先改：${scores[0][0]}（${scores[0][1]} 分）\n第二優先：${scores[1][0]}（${scores[1][1]} 分）`;
+
+  const optimized=makeOptimizedBio('balanced');
+  document.getElementById('optimizedBio').textContent=optimized;
+  document.getElementById('bioResult').classList.remove('hidden');
+  document.getElementById('bioResult').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function makeOptimizedBio(mode='balanced'){
+  const identity=v('identity','自媒體創作者');
+  const story=v('story','').trim();
+  const audience=v('audience','想找到方向、開始經營自己的你');
+  const problem=v('problem','不知道自己的特色與內容方向');
+  const transformation=v('transformation','找到定位並開始穩定輸出');
+  const t=topics();
+  const traits=v('traits','真實、敢說、溫柔').split(/[、,，]/).filter(Boolean);
+  const style=v('style','真實、有共感');
+  const goal=v('ctaGoal','領取免費個人品牌定位工具');
+
+  let credibility='';
+  if(story){
+    let short=story.replace(/[。！!？?].*$/,'');
+    if(short.length>24)short=short.slice(0,24);
+    credibility=`${identity}｜${short}`;
+  }else credibility=`${identity}｜把真實經歷變成有價值的內容`;
+
+  const value=`陪${audience.replace(/^20.?30.*?[、，]/,'')}從「${problem}」→「${transformation}」`;
+  const warm=`${traits.slice(0,2).join(' × ') || style}｜分享 ${t.join('・')}`;
+  let cta=goal;
+  if(!/👇|⬇/.test(cta))cta='👇 '+cta;
+
+  if(mode==='professional'){
+    return `${credibility}\n教你用 ${t[0]} × ${t[1]} 打造有記憶點的個人品牌\n${t[2]}也分享｜不只講方法，也講真實過程\n👇 ${goal}`;
+  }
+  if(mode==='warm'){
+    return `${identity}｜正在把人生重新活成自己喜歡的樣子\n陪你一起聊 ${t.join('・')}\n${traits.slice(0,3).join(' × ') || '真實 × 共感 × 有想法'}，不完美也照樣分享\n👇 ${goal}`;
+  }
+  if(mode==='catchy'){
+    return `不是天生會經營｜${identity}的真實成長實驗\n把「${problem.slice(0,18)}」變成有方向\n${t.join(' × ')}｜${traits.slice(0,2).join('・') || '真實・敢說'}\n👇 ${goal}`;
+  }
+  return `${credibility}\n${value}\n${warm}\n${cta}`;
+}
+function generateBioVersions(){
+  document.getElementById('bioProfessional').textContent=makeOptimizedBio('professional');
+  document.getElementById('bioWarm').textContent=makeOptimizedBio('warm');
+  document.getElementById('bioCatchy').textContent=makeOptimizedBio('catchy');
+  document.getElementById('bioVersions').classList.remove('hidden');
+  document.getElementById('bioVersions').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function copyOptimizedBio(){
+  const txt=document.getElementById('optimizedBio').textContent;
+  navigator.clipboard.writeText(txt).then(()=>alert('已複製優化 BIO！')).catch(()=>alert('請手動複製 BIO。'));
+}
+
+function updateSavedSummary(){
+  const done=localStorage.getItem('lingBrandCompletedV5')||localStorage.getItem('lingBrandCompleted');
+  if(!done){document.getElementById('savedSummary').textContent='目前還沒有完成測驗。';return;}
+  const type=getCreatorType();
+  document.getElementById('savedSummary').textContent=`${v('name','你')}｜${v('identity','內容創作者')}\n${type.name}\n主要內容：${topics().join(' × ')}\n品牌完成度：${calcBrandScore()}%`;
+  document.getElementById('savedSummary').style.whiteSpace='pre-line';
+}
+function clearData(){
+  if(confirm('確定要清除這台裝置上的品牌資料嗎？')){
+    localStorage.removeItem('lingBrandDataV5');localStorage.removeItem('lingBrandCompletedV5');
+    ids.forEach(id=>document.getElementById(id).value='');
+    document.getElementById('format').value='短影音口播';
+    currentStep=1;updateProgress();updateSavedSummary();
+  }
+}
+function copyResult(){
+  const text=[
+    '【一句話定位】',document.getElementById('positioning').textContent,'',
+    '【創作者人格】',document.getElementById('creatorTypeName').textContent,'',
+    '【你是誰】',document.getElementById('who').textContent,'',
+    '【你幫誰】',document.getElementById('help').textContent,'',
+    '【你說什麼】',document.getElementById('say').textContent,'',
+    '【IG Bio】',document.getElementById('bio').textContent
+  ].join('\n');
+  navigator.clipboard.writeText(text).then(()=>alert('已複製！')).catch(()=>alert('複製失敗，請手動選取。'));
+}
+function makeShareCard(){
+  const type=getCreatorType();
+  document.getElementById('shareName').textContent=v('name','我的品牌定位');
+  document.getElementById('shareType').textContent=type.name;
+  document.getElementById('sharePosition').textContent=document.getElementById('positioning').textContent;
+  const w=document.getElementById('sharePillars');w.innerHTML='';
+  topics().forEach(x=>w.innerHTML+=`<span class="pill">${x}</span>`);
+  document.getElementById('shareScore').textContent=`品牌完成度 ${calcBrandScore()}%`;
+  document.getElementById('shareWrap').classList.remove('hidden');
+  document.getElementById('shareWrap').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function wrapText(ctx,text,x,y,maxWidth,lineHeight){
+  const chars=[...text];let line='';let yy=y;
+  chars.forEach(ch=>{
+    const test=line+ch;
+    if(ctx.measureText(test).width>maxWidth && line){ctx.fillText(line,x,yy);line=ch;yy+=lineHeight;}
+    else line=test;
+  });
+  if(line)ctx.fillText(line,x,yy);
+  return yy;
+}
+function downloadShareCard(){
+  const canvas=document.getElementById('shareCanvas'),ctx=canvas.getContext('2d'),type=getCreatorType();
+  ctx.fillStyle='#F7EEE8';ctx.fillRect(0,0,1080,1350);
+  ctx.fillStyle='#2D2926';ctx.textAlign='center';
+  ctx.font='700 34px sans-serif';ctx.fillText('MY CREATOR PROFILE',540,150);
+  ctx.font='700 70px sans-serif';ctx.fillText(v('name','我的品牌'),540,270);
+  ctx.fillStyle='#8C7062';ctx.font='700 42px sans-serif';ctx.fillText(type.name,540,345);
+  ctx.fillStyle='#2D2926';ctx.font='36px sans-serif';
+  const pos=document.getElementById('positioning').textContent;
+  wrapText(ctx,pos,540,455,820,58);
+  ctx.font='700 34px sans-serif';ctx.fillStyle='#8C7062';ctx.fillText(topics().join(' × '),540,780);
+  ctx.fillStyle='#2D2926';ctx.font='32px sans-serif';ctx.fillText(`品牌完成度 ${calcBrandScore()}%`,540,900);
+  ctx.fillStyle='#786E68';ctx.font='28px sans-serif';ctx.fillText('@ling_02_02 · LING',540,1190);
+  const a=document.createElement('a');a.download='ling-brand-result.png';a.href=canvas.toDataURL('image/png');a.click();
+}
+
+loadData();
+updateProgress();
+render30Days();
+</script>
+
+<script>
+function openLinePurchase(){
+  const LINE_PURCHASE_URL = "https://line.me/ti/p/Vfr2_tJJK7";
+  window.location.href = LINE_PURCHASE_URL;
+  return false;
+}
+</script>
+
+
+
+
+</body>
+</html>
+
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+  document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
+  const p=document.getElementById("growthStory");
+  if(p) p.classList.add("active");
+});
+</script>
